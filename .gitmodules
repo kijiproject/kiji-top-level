@@ -1,0 +1,87 @@
+[submodule "annotations"]
+	path = annotations
+	url = git@github.com:kijiproject/annotations
+[submodule "bento-cluster"]
+	path = bento-cluster
+	url = git@github.com:kijiproject/bento-cluster
+[submodule "fake-hbase"]
+	path = fake-hbase
+	url = git@github.com:kijiproject/fake-hbase
+[submodule "hadoop-configurator"]
+	path = hadoop-configurator
+	url = git@github.com:kijiproject/hadoop-configurator
+[submodule "hbase-maven-plugin"]
+	path = hbase-maven-plugin
+	url = git@github.com:kijiproject/hbase-maven-plugin
+[submodule "kiji-avro"]
+	path = kiji-avro
+	url = git@github.com:kijiproject/kiji-avro
+[submodule "kiji-bento"]
+	path = kiji-bento
+	url = git@github.com:kijiproject/kiji-bento
+[submodule "kiji-checkin"]
+	path = kiji-checkin
+	url = git@github.com:kijiproject/kiji-checkin
+[submodule "kiji-common-flags"]
+	path = kiji-common-flags
+	url = git@github.com:kijiproject/kiji-common-flags
+[submodule "kiji-delegation"]
+	path = kiji-delegation
+	url = git@github.com:kijiproject/kiji-delegation
+[submodule "kiji-end-to-end-tests"]
+	path = kiji-end-to-end-tests
+	url = git@github.com:kijiproject/kiji-end-to-end-tests
+[submodule "kiji-express"]
+	path = kiji-express
+	url = git@github.com:kijiproject/kiji-express
+[submodule "kiji-express-music"]
+	path = kiji-express-music
+	url = git@github.com:kijiproject/kiji-express-music
+[submodule "kiji-framework"]
+	path = kiji-framework
+	url = git@github.com:kijiproject/kiji-framework
+[submodule "kiji-hive-adapter"]
+	path = kiji-hive-adapter
+	url = git@github.com:kijiproject/kiji-hive-adapter
+[submodule "kiji-mapreduce"]
+	path = kiji-mapreduce
+	url = git@github.com:kijiproject/kiji-mapreduce
+[submodule "kiji-mapreduce-lib"]
+	path = kiji-mapreduce-lib
+	url = git@github.com:kijiproject/kiji-mapreduce-lib
+[submodule "kiji-model-repository"]
+	path = kiji-model-repository
+	url = git@github.com:kijiproject/kiji-model-repository
+[submodule "kiji-music"]
+	path = kiji-music
+	url = git@github.com:kijiproject/kiji-music
+[submodule "kiji-phonebook"]
+	path = kiji-phonebook
+	url = git@github.com:kijiproject/kiji-phonebook
+[submodule "kiji-platforms"]
+	path = kiji-platforms
+	url = git@github.com:kijiproject/kiji-platforms
+[submodule "kiji-poms"]
+	path = kiji-poms
+	url = git@github.com:kijiproject/kiji-poms
+[submodule "kiji-rest"]
+	path = kiji-rest
+	url = git@github.com:kijiproject/kiji-rest
+[submodule "kiji-schema"]
+	path = kiji-schema
+	url = git@github.com:kijiproject/kiji-schema
+[submodule "kiji-schema-shell"]
+	path = kiji-schema-shell
+	url = git@github.com:kijiproject/kiji-schema-shell
+[submodule "kiji-scoring"]
+	path = kiji-scoring
+	url = git@github.com:kijiproject/kiji-scoring
+[submodule "kiji-scoring-server"]
+	path = kiji-scoring-server
+	url = git@github.com:kijiproject/kiji-scoring-server
+[submodule "kijiproject.github.com"]
+	path = kijiproject.github.com
+	url = git@github.com:kijiproject/kijiproject.github.com
+[submodule "kiji-modeling"]
+	path = kiji-modeling
+	url = git@github.com:kijiproject/kiji-modeling.git
