@@ -1,0 +1,58 @@
+#! /bin/bash
+
+# Die on error.
+set -e
+
+date
+
+# Grab oracle jdk 7
+sudo tee /etc/apt/sources.list.d/oracle-jdk-7.list <<EOF
+deb http://ppa.launchpad.net/webupd8team/java/ubuntu precise main
+deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu precise main
+EOF
+
+# Accept the license
+echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
+
+sudo apt-get update
+
+# Install it, maven and some other small nicities
+sudo apt-get install -y --force-yes \
+  curl                    \
+  dstat                   \
+  iftop                   \
+  iotop                   \
+  lsof                    \
+  man-db                  \
+  maven                   \
+  mlocate                 \
+  nano                    \
+  oracle-java7-installer  \
+  rsync                   \
+  sysstat                 \
+  unzip                   \
+  vim                     \
+  zip
+
+# Select the active java installation
+sudo update-java-alternatives -s java-7-oracle
+
+# Set a system-wide JAVA_HOME
+sudo tee /etc/profile.d/java.sh <<'EOF'
+JAVA_HOME=/usr/lib/jvm/java-7-oracle
+EOF
+
+# Tweak the ruby prompts for hbase shell
+cat > /home/vagrant/.irbrc <<'EOF'
+require 'pp'
+require 'English'
+require 'irb/completion'
+IRB.conf[:AUTO_INDENT] = true
+IRB.conf[:PROMPT_MODE] = :SIMPLE
+EOF
+
+# Make a softlink in the user's home to the location of the shared checkout.
+ln -s /vagrant /home/vagrant/kiji
+
+# Drop into the common provisioning script
+. ./provisioning/install

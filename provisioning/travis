@@ -1,0 +1,17 @@
+#! /bin/bash
+
+# Die on error.
+set -e
+
+date
+
+# Get some hardware details
+set -x
+hostname
+uname -a
+free -m
+df -h
+set +x
+
+# Drop into the common provisioning script
+. ./provisioning/install

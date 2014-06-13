@@ -1,0 +1,39 @@
+#! /bin/bash
+
+# Die on error.
+set -e
+
+date
+
+# Descend into chosen sub projects and run their integration test suites.
+# One can pick a particular sub project with the COMPONENT environment variable.
+
+if [[ "${COMPONENT:-kiji-schema}" == 'kiji-schema' ]]
+then
+  pushd kiji-schema
+
+  # Prevent a problem with cleanup.log and the enforcer plugin
+  # See https://groups.google.com/a/kiji.org/d/topic/dev/_iNQBJa0lCc/discussion
+  mkdir -p kiji-schema/target
+  echo -n > kiji-schema/target/cleanup.log
+
+  mvn verify \
+    -Dkiji.test.cluster.uri=kiji://localhost:2181/                \
+    -Dorg.kiji.schema.test.cleanup.after.test=false               \
+    -Dmaven.javadoc.skip                                          \
+    -Dcheckstyle.skip=true                                        \
+    -DskipUnitTests
+  popd
+fi
+
+if [[ "${COMPONENT:-kiji-mapreduce}" == 'kiji-mapreduce' ]]
+then
+  pushd kiji-mapreduce
+  mvn verify \
+    -Dkiji.test.cluster.uri=kiji://localhost:2181/                \
+    -Dorg.kiji.schema.test.cleanup.after.test=false               \
+    -Dmaven.javadoc.skip                                          \
+    -Dcheckstyle.skip=true                                        \
+    -DskipUnitTests
+  popd
+fi

@@ -1,0 +1,70 @@
+#! /bin/bash
+
+# Add the apt repo, update
+sudo tee /etc/apt/sources.list.d/cdh.list <<EOF
+deb [arch=amd64] http://archive.cloudera.com/cdh4/ubuntu/precise/amd64/cdh precise-cdh4.2.2 contrib
+EOF
+
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 02A818DD
+sudo apt-get update
+
+# Copy in configuration files
+sudo rsync -rv files/ /
+
+# Remove 127.0.1.1 from /etc/hosts.  See http://stackoverflow.com/a/6535381/580412
+sudo sed -i "s/^127.0.1.1.*$//g" /etc/hosts
+
+# Update alternatives to point the stack at our configuration
+sudo update-alternatives --install /etc/hadoop/conf hadoop-conf /etc/hadoop/conf.kiji 99
+sudo update-alternatives --install /etc/hbase/conf hbase-conf /etc/hbase/conf.kiji 99
+sudo update-alternatives \
+  --install /etc/zookeeper/conf zookeeper-conf /etc/zookeeper/conf.kiji 99
+
+# Install HDFS
+sudo apt-get install -y --force-yes \
+  hadoop-hdfs-datanode              \
+  hadoop-hdfs-namenode              \
+  hadoop-hdfs-secondarynamenode
+
+# Format the name node
+sudo -u hdfs hdfs namenode -format -nonInteractive
+
+# Restart HDFS and wait for it to come up
+sudo service hadoop-hdfs-datanode           restart
+sudo service hadoop-hdfs-secondarynamenode  restart
+sudo service hadoop-hdfs-namenode           restart
+
+for i in {1..6}
+do
+  hdfs dfsadmin -safemode wait && break
+  sleep 10
+done
+
+# Build all needed hdfs directory structure
+sudo -u hdfs hdfs dfs -mkdir -p /tmp
+sudo -u hdfs hdfs dfs -chmod -R 1777 /tmp
+sudo -u hdfs hdfs dfs -mkdir -p "/user/$USER"
+sudo -u hdfs hdfs dfs -chown -R "$USER" "/user/$USER"
+sudo -u hdfs hdfs dfs -mkdir -p /mapred/system
+sudo -u hdfs hdfs dfs -chown -R mapred:hadoop /mapred
+sudo -u hdfs hdfs dfs -mkdir -p /hbase
+sudo -u hdfs hdfs dfs -chown hbase /hbase
+
+# Install the rest of the stack.
+sudo apt-get install -y --force-yes \
+  hadoop-0.20-mapreduce-jobtracker  \
+  hadoop-0.20-mapreduce-tasktracker \
+  hbase-master                      \
+  hbase-regionserver                \
+  zookeeper-server
+
+# Initialize zookeeper
+sudo -u zookeeper zookeeper-server-initialize
+echo 1 | sudo tee /var/lib/zookeeper/myid
+
+# Bring up remaining services
+sudo service hadoop-0.20-mapreduce-jobtracker   restart
+sudo service hadoop-0.20-mapreduce-tasktracker  restart
+sudo service zookeeper-server                   restart
+sudo service hbase-master                       restart
+sudo service hbase-regionserver                 restart
