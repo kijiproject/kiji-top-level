@@ -85,3 +85,6 @@
 [submodule "kiji-modeling"]
 	path = kiji-modeling
 	url = git@github.com:kijiproject/kiji-modeling.git
+[submodule "cassandra-maven-plugin"]
+	path = cassandra-maven-plugin
+	url = git@github.com:kijiproject/cassandra-maven-plugin
