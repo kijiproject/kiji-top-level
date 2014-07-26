@@ -1,0 +1,49 @@
+# These may be useful:
+# http://docs.travis-ci.com/user/languages/java/
+# http://docs.travis-ci.com/user/build-configuration/#The-Build-Matrix
+
+language: java
+
+jdk:
+  - oraclejdk7
+
+# We need private-style submodule urls, but they stop travis from being able to checkout
+# the submodules.  So we disable travis' default functionality, hack the .gitmodules
+# in-place, and initialize them manually.  For more details, see
+# http://docs.travis-ci.com/user/build-configuration/#Git-Submodules
+git:
+  submodules: false
+
+before_install:
+  - "sed -i 's|git@github.com:|git://github.com/|g' .gitmodules"
+  - git submodule update --init --recursive
+
+before_script: ./provisioning/travis
+script: ./run-tests
+
+env:
+  matrix:
+    - PLATFORM=cdh4.1.5
+      COMPONENT=kiji-schema
+    - PLATFORM=cdh4.1.5
+      COMPONENT=kiji-mapreduce
+
+    - PLATFORM=cdh4.2.2
+      COMPONENT=kiji-schema
+    - PLATFORM=cdh4.2.2
+      COMPONENT=kiji-mapreduce
+
+    - PLATFORM=cdh4.3.2
+      COMPONENT=kiji-schema
+    - PLATFORM=cdh4.3.2
+      COMPONENT=kiji-mapreduce
+
+    - PLATFORM=cdh4.4.0
+      COMPONENT=kiji-schema
+    - PLATFORM=cdh4.4.0
+      COMPONENT=kiji-mapreduce
+
+    - PLATFORM=cdh4.5.0
+      COMPONENT=kiji-schema
+    - PLATFORM=cdh4.5.0
+      COMPONENT=kiji-mapreduce

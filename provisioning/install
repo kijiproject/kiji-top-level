@@ -1,0 +1,48 @@
+#! /bin/bash
+
+# Die on error.
+set -e
+
+date
+
+# Assert some things about the running vm.
+
+# This is a ubuntu (or at least debian-flavor) image
+if [[ "$(which lsb_release)" == '' ]]
+then
+  echo "This does not appear to be an ubuntu image, refusing to continue."
+  exit 1
+fi
+
+# It is the "precise" release
+if [[ "$(lsb_release -sc)" != 'precise' ]]
+then
+  echo "This is a $(lsb_release -sc) image, not precise.  Refusing to continue."
+  exit 1
+fi
+
+# It is a 64-bit image
+if [[ "$(uname -m)" != 'x86_64' ]]
+then
+  echo "This does not appear to be 64-bit image, refusing to continue."
+  exit 1
+fi
+
+PLATFORM_DIR="./provisioning/platforms/$PLATFORM"
+
+# The platform matches an install script.
+if ! test -x "$PLATFORM_DIR/install"
+then
+  echo "Unknown platform $PLATFORM"
+  exit 1
+else
+  echo
+  echo
+  echo "Installing platform $PLATFORM"
+  echo
+  echo
+fi
+
+# Install the platform
+cd "$PLATFORM_DIR"
+. ./install
