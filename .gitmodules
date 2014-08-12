@@ -4,6 +4,12 @@
 [submodule "bento-cluster"]
 	path = bento-cluster
 	url = git@github.com:kijiproject/bento-cluster
+[submodule "bento-maven-plugin"]
+	path = bento-maven-plugin
+	url = git@github.com:kijiproject/bento-maven-plugin
+[submodule "cassandra-maven-plugin"]
+	path = cassandra-maven-plugin
+	url = git@github.com:kijiproject/cassandra-maven-plugin
 [submodule "fake-hbase"]
 	path = fake-hbase
 	url = git@github.com:kijiproject/fake-hbase
@@ -85,6 +91,3 @@
 [submodule "kiji-modeling"]
 	path = kiji-modeling
 	url = git@github.com:kijiproject/kiji-modeling.git
-[submodule "cassandra-maven-plugin"]
-	path = cassandra-maven-plugin
-	url = git@github.com:kijiproject/cassandra-maven-plugin
